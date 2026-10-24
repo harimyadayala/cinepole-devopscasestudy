@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+<h1>My Bookings</h1>
+<form method="post" class="fields">
+  <input type="email" name="email" placeholder="Enter your booking email" value="{{ email }}" required>
+  <button class="btn" type="submit">Search</button>
+</form>
+{% if results is not none %}
+  {% if results %}
+  <table>
+    <tr><th>ID</th><th>Movie</th><th>Show</th><th>Seats</th><th>Total</th></tr>
+    {% for b in results %}
+    <tr>
+      <td><a href="{{ url_for('confirmation', booking_id=b.id) }}">{{ b.id }}</a></td>
+      <td>{{ b.movie }}</td><td>{{ b.show }}</td><td>{{ b.seats | join(', ') }}</td><td>₹{{ b.total }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}<p>No bookings found for this email.</p>{% endif %}
+{% endif %}
+{% endblock %}

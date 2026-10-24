@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-booking
+  labels:
+    app: movie-booking
+spec:
+  replicas: 1          # in-memory data store => keep 1 replica (see README)
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: movie-booking
+  template:
+    metadata:
+      labels:
+        app: movie-booking
+    spec:
+      containers:
+        - name: movie-booking
+          # Jenkins replaces IMAGE_PLACEHOLDER with <dockerhub-user>/movie-booking:<build-number>
+          image: IMAGE_PLACEHOLDER
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi

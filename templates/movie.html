@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ movie.title }}{% endblock %}
+{% block content %}
+<h1>{{ movie.title }}</h1>
+<p class="meta">{{ movie.genre }} &bull; {{ movie.language }} &bull; {{ movie.duration }} &bull; ⭐ {{ movie.rating }}</p>
+<p>{{ movie.desc }}</p>
+
+<div class="shows">
+  {% for s in movie.shows %}
+    <a class="pill {{ 'active' if s == show }}" href="{{ url_for('movie', movie_id=movie_id, show=s) }}">{{ s }}</a>
+  {% endfor %}
+</div>
+
+<form method="post" class="booking">
+  <input type="hidden" name="show" value="{{ show }}">
+  <div class="screen">SCREEN THIS WAY</div>
+  <div class="seatmap">
+    {% for r in rows %}
+      <div class="row">
+        <span class="rowlabel">{{ r }}</span>
+        {% for n in range(1, per_row + 1) %}
+          {% set seat = r ~ n %}
+          <label class="seat {{ 'booked' if seat in booked }}">
+            <input type="checkbox" name="seats" value="{{ seat }}" {{ 'disabled' if seat in booked }}>
+            <span>{{ n }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+  <p class="legend"><span class="dot free"></span> Available <span class="dot sel"></span> Selected <span class="dot bk"></span> Booked &mdash; ₹{{ price }} per seat</p>
+
+  <div class="fields">
+    <input type="text" name="name" placeholder="Your name" required>
+    <input type="email" name="email" placeholder="Email address" required>
+    <button class="btn" type="submit">Confirm Booking</button>
+  </div>
+</form>
+{% endblock %}

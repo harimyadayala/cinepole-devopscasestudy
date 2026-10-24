@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Booking Confirmed{% endblock %}
+{% block content %}
+<div class="ticket">
+  <h1>✅ Booking Confirmed</h1>
+  <p><strong>Booking ID:</strong> {{ b.id }}</p>
+  <p><strong>Movie:</strong> {{ b.movie }}</p>
+  <p><strong>Show:</strong> {{ b.show }}</p>
+  <p><strong>Seats:</strong> {{ b.seats | join(', ') }}</p>
+  <p><strong>Name:</strong> {{ b.name }} ({{ b.email }})</p>
+  <p><strong>Total paid:</strong> ₹{{ b.total }}</p>
+  <p class="meta">Booked on {{ b.time }}</p>
+  <a class="btn" href="{{ url_for('index') }}">Book another</a>
+</div>
+{% endblock %}

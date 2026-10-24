@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}CineBook{% endblock %} | CineBook</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <a class="logo" href="{{ url_for('index') }}">🎬 CineBook</a>
+    <nav>
+      <a href="{{ url_for('index') }}">Now Showing</a>
+      <a href="{{ url_for('bookings') }}">My Bookings</a>
+    </nav>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>CineBook &middot; DevOps Case Study &middot; Flask + Docker + Kubernetes + Jenkins</footer>
+</body>
+</html>

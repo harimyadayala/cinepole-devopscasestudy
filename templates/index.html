@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Now Showing{% endblock %}
+{% block content %}
+<h1>Now Showing</h1>
+<div class="grid">
+  {% for id, m in movies.items() %}
+  <div class="card">
+    <h3>{{ m.title }}</h3>
+    <p class="meta">{{ m.genre }} &bull; {{ m.language }} &bull; {{ m.duration }}</p>
+    <p>{{ m.desc }}</p>
+    <p class="rating">⭐ {{ m.rating }}/10</p>
+    <a class="btn" href="{{ url_for('movie', movie_id=id) }}">Book Tickets</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
